@@ -1,0 +1,142 @@
+name: netcore-ci
+description: .NET Core CI
+
+inputs:
+  client-id:
+    description: Client ID of the App Registration with access to the Azure Container Registry
+    required: false
+    type: string
+  config:
+    description: Configuration to use for build and publish
+    type: string
+    default: Release
+  container-registry-name:
+    description: Name of the Azure Container Registry
+    required: false
+    type: string
+  containerized:
+    description: Is the application containerized?
+    type: boolean
+    default: true
+  docker-image-name:
+    description: Name of the Docker image
+    required: false
+    type: string
+  dotnet-version:
+    description: Version of .NET Core SDK to install
+    type: string
+    default: 6.x
+  node-version:
+    description: Version of Node.js to install
+    type: string
+    default: 18.x
+  output-dirname:
+    description: Directory name for output files
+    type: string
+    default: __output
+  publish-project-filepath:
+    description: File path to the project to publish
+    required: false
+    type: string
+  push-docker-image-pull-requests:
+    description: Push Docker image during pull requests?
+    type: boolean
+    default: false
+  reports-dirname:
+    description: Directory name for reports files
+    type: string
+    default: __reports
+  run-unit-tests:
+    description: Run unit tests?
+    type: boolean
+    default: true
+  subscription-id:
+    description: Subscription ID where is the Azure Container Registry
+    required: false
+    type: string
+  tenant-id:
+    description: Tenant ID of the Azure Active Directory
+    required: false
+    type: string
+  version:
+    description: Value of version
+    required: true
+    type: string
+  working-directory:
+    description: Directory of the source code
+    type: string
+    default: ./
+
+runs:
+  using: composite
+  steps:
+    - name: Setup .NET Core SDK ${{ inputs.dotnet-version }}
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ inputs.dotnet-version }}
+    - name: Authenticate to Azure
+      if: ${{ inputs.containerized == 'true' && (github.event_name != 'pull_request' || inputs.push-docker-image-pull-requests == 'true') }}
+      uses: azure/login@v1
+      with:
+        client-id: ${{ inputs.client-id }}
+        subscription-id: ${{ inputs.subscription-id }}
+        tenant-id: ${{ inputs.tenant-id }}
+    - name: Authenticate to container registry
+      if: ${{ inputs.containerized == 'true' && (github.event_name != 'pull_request' || inputs.push-docker-image-pull-requests == 'true') }}
+      run: az acr login --name ${{ inputs.container-registry-name }}
+      shell: pwsh
+    - uses: actions/cache@v3
+      if: ${{ inputs.containerized == 'false' || (inputs.run-unit-tests == 'true' && github.event_name == 'pull_request') }}
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+    - name: Install dependencies
+      if: ${{ inputs.containerized == 'false' || (inputs.run-unit-tests == 'true' && github.event_name == 'pull_request') }}
+      run: dotnet restore --locked-mode
+      working-directory: ${{ inputs.working-directory }}
+      shell: pwsh
+    - name: Build
+      if: ${{ inputs.containerized == 'false' || (inputs.run-unit-tests == 'true' && github.event_name == 'pull_request') }}
+      run: dotnet build -c ${{ inputs.config }} --no-restore
+      working-directory: ${{ inputs.working-directory }}
+      shell: pwsh
+    - name: Make and publish tests
+      if: ${{ inputs.run-unit-tests == 'true' && github.event_name == 'pull_request' }}
+      uses: ardian-france/devops-netcore-tests-action@v1
+      with:
+        config: ${{ inputs.config }}
+        node-version: ${{ inputs.node-version }}
+        reports-dirname: ${{ inputs.reports-dirname }}
+        working-directory: ${{ inputs.working-directory }}
+    - name: Define Docker image tag
+      if: ${{ inputs.containerized == 'true' && (github.event_name != 'pull_request' || inputs.push-docker-image-pull-requests == 'true') }}
+      run: |-
+        echo "DOCKER_IMAGE_TAG=${{ inputs.version }}" >> $Env:GITHUB_ENV
+      shell: pwsh
+    - name: Build Docker image
+      if: ${{ inputs.containerized == 'true' }}
+      run: |-
+        docker build --build-arg BUILD_ENV=prod . -t ${{ inputs.container-registry-name }}.azurecr.io/${{ inputs.docker-image-name }}:${{ env.DOCKER_IMAGE_TAG }}
+      shell: pwsh
+    - name: Push Docker image
+      if: ${{ inputs.containerized == 'true' && (github.event_name != 'pull_request' || inputs.push-docker-image-pull-requests == 'true') }}
+      run: |-
+        docker push ${{ inputs.container-registry-name }}.azurecr.io/${{ inputs.docker-image-name }}:${{ env.DOCKER_IMAGE_TAG }}
+      shell: pwsh
+    - name: Publish
+      if: ${{ inputs.containerized == 'false' }}
+      run: >-
+        dotnet publish 
+        -c ${{ inputs.config }} 
+        --no-restore 
+        --no-build 
+        --property:PublishDir=${{ github.workspace }}/${{ inputs.output-dirname }} 
+        ${{ inputs.publish-project-filepath }}
+      working-directory: ${{ inputs.working-directory }}
+      shell: pwsh
+    - name: Upload publish output
+      if: ${{ inputs.containerized == 'false' }}
+      uses: actions/upload-artifact@v3
+      with:
+        name: output
+        path: ${{ inputs.output-dirname }}

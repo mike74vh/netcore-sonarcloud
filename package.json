@@ -1,0 +1,28 @@
+{
+  "name": "devops-netcore-ci-action",
+  "version": "1.0.0",
+  "description": "This repository contains composite action for .NET Core continuous integration operations.",
+  "scripts": {
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ardian-france/devops-netcore-ci-action.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ardian-france/devops-netcore-ci-action.git/issues"
+  },
+  "homepage": "https://github.com/ardian-france/devops-netcore-ci-action.git#readme",
+  "devDependencies": {
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^8.0.3",
+    "validate-branch-name": "^1.3.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}

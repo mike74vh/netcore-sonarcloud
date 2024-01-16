@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example", "Example\Example.csproj", "{C0EF3A2C-A891-4314-85AC-D1DFBE3CB7B6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherForecastUnitTests", "WeatherForecastUnitTests\WeatherForecastUnitTests.csproj", "{79ACE8D9-1104-4879-92D8-E8FA2CF81E35}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StatusUnitTests", "StatusUnitTests\StatusUnitTests.csproj", "{FDEF0105-FDE7-45AC-9181-242375063F1D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{B7D5C651-76C9-4ECB-9D1B-661D936FBD63}"
+	ProjectSection(SolutionItems) = preProject
+		..\.gitignore = ..\.gitignore
+		..\.prettierrc = ..\.prettierrc
+		..\.validate-branch-namerc.json = ..\.validate-branch-namerc.json
+		..\CODEOWNERS = ..\CODEOWNERS
+		..\Dockerfile = ..\Dockerfile
+		..\package.json = ..\package.json
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C0EF3A2C-A891-4314-85AC-D1DFBE3CB7B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0EF3A2C-A891-4314-85AC-D1DFBE3CB7B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0EF3A2C-A891-4314-85AC-D1DFBE3CB7B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0EF3A2C-A891-4314-85AC-D1DFBE3CB7B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79ACE8D9-1104-4879-92D8-E8FA2CF81E35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79ACE8D9-1104-4879-92D8-E8FA2CF81E35}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79ACE8D9-1104-4879-92D8-E8FA2CF81E35}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79ACE8D9-1104-4879-92D8-E8FA2CF81E35}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDEF0105-FDE7-45AC-9181-242375063F1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDEF0105-FDE7-45AC-9181-242375063F1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDEF0105-FDE7-45AC-9181-242375063F1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDEF0105-FDE7-45AC-9181-242375063F1D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5D69AB82-D635-4101-A5A7-7046D97558F6}
+	EndGlobalSection
+EndGlobal
