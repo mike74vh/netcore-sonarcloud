@@ -33,7 +33,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          dotnet sonarscanner begin /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /k:"sonarcloud" /d:sonar.host.url="https://sonarcloud.io"
+          dotnet sonarscanner begin /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /k:"sonarcloud" /o:"mike74vh" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build -c Release
           dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
         working-directory: src
