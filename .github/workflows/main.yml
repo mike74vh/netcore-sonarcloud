@@ -28,7 +28,19 @@ jobs:
           fetch-depth: 0
       - name: Install Sonar scanner
         run: |
-          wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+          cd /tmp || exit
+          wget -q https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+          echo "Download completed."
+          echo "Unziping downloaded file..."
+          unzip sonar-scanner-cli-5.0.1.3006-linux.zip
+          echo "Unzipping completed."
+          rm sonar-scanner-cli-5.0.1.3006-linux.zip
+          sudo mv sonar-scanner-5.0.1.3006-linux /var/opt
+          echo "Creating links..."
+          sudo ln -s /var/opt/sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner /usr/local/bin/
+
+          echo "Path sonar-scanner:"
+          which sonar-scanner
       # - name: Install SonarCloud scanner
       #   run: dotnet tool install --global dotnet-sonarscanner --version 6.0.0
       # - name: Build and analyze
