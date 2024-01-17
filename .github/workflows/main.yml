@@ -41,11 +41,10 @@ jobs:
 
           echo "Path sonar-scanner:"
           which sonar-scanner
+      - name: Show sonar-scanner help
+        run: sonar-scanner -h
       - name: Build and analyze
-        # env:
-        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        #   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: sonar-scanner -Dsonar.host.url="https://sonarcloud.io" -Dsonar.login="${{ secrets.SONAR_TOKEN }}" -Dsonar.projectKey="mike74vh_sonarcloud" -Dsonar.organization="mike74vh" -Dsonar.sources="src"
+        run: sonar-scanner --define sonar.host.url="https://sonarcloud.io"
       # - name: Install SonarCloud scanner
       #   run: dotnet tool install --global dotnet-sonarscanner --version 6.0.0
       # - name: Build and analyze
