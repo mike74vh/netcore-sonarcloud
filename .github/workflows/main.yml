@@ -44,7 +44,7 @@ jobs:
       - name: Show sonar-scanner help
         run: sonar-scanner -h
       - name: Build and analyze
-        run: sonar-scanner --define sonar.host.url="https://sonarcloud.io"
+        run: sonar-scanner --define sonar.host.url="https://sonarcloud.io" --define sonar.token="${{ secrets.SONAR_TOKEN }}"
       # - name: Install SonarCloud scanner
       #   run: dotnet tool install --global dotnet-sonarscanner --version 6.0.0
       # - name: Build and analyze
