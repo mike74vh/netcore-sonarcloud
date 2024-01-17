@@ -35,9 +35,9 @@ jobs:
           unzip sonar-scanner-cli-5.0.1.3006-linux.zip
           echo "Unzipping completed."
           rm sonar-scanner-cli-5.0.1.3006-linux.zip
-          mv sonar-scanner-5.0.1.3006-linux /var/opt
+          sudo mv sonar-scanner-5.0.1.3006-linux /var/opt
           echo "Creating links..."
-          ln -s /var/opt/sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner /usr/local/bin/
+          sudo ln -s /var/opt/sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner /usr/local/bin/
 
           echo "Path sonar-scanner:"
           which sonar-scanner
