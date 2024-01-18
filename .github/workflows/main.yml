@@ -29,14 +29,15 @@ jobs:
       - name: Install Sonar scanner for .NET
         run: |
           cd /tmp || exit
+          mkdir sonar
           wget -q https://github.com/SonarSource/sonar-scanner-msbuild/releases/download/6.0.0.81631/sonar-scanner-6.0.0.81631-net.zip
           echo "Download completed."
           echo "Unziping downloaded file..."
-          unzip sonar-scanner-6.0.0.81631-net.zip
+          unzip sonar-scanner-6.0.0.81631-net.zip -d sonar
           echo "Unzipping completed."
-          ls -ll /tmp
+          ls -ll /tmp/sonar
           rm sonar-scanner-6.0.0.81631-net.zip
-          sudo mv sonar-scanner-5.0.1.3006 /var/opt
+          sudo mv sonar /var/opt
           sudo chmod +x /var/opt/sonar-scanner-5.0.1.3006/bin/sonar-scanner
           echo "Creating links..."
           sudo ln -s /var/opt/sonar-scanner-5.0.1.3006/bin/sonar-scanner /usr/local/bin/
