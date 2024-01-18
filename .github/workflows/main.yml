@@ -36,10 +36,14 @@ jobs:
           echo "Unzipping completed."
           rm sonar-scanner-6.0.0.81631-net.zip
           sudo mv sonar-scanner-5.0.1.3006 /var/opt
+          sudo chmod +x /var/opt/sonar-scanner-5.0.1.3006/bin/sonar-scanner
           echo "Creating links..."
           sudo ln -s /var/opt/sonar-scanner-5.0.1.3006/bin/sonar-scanner /usr/local/bin/
 
           ls -ll /usr/local/bin
+
+          echo "Path to sonar-scanner:"
+          which sonar-scanner
       # - name: Install Sonar scanner
       #   run: |
       #     cd /tmp || exit
@@ -53,7 +57,7 @@ jobs:
       #     echo "Creating links..."
       #     sudo ln -s /var/opt/sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner /usr/local/bin/
 
-      #     echo "Path sonar-scanner:"
+      #     echo "Path to sonar-scanner:"
       #     which sonar-scanner
       - name: Build and analyze
         run: sonar-scanner --define sonar.host.url="https://sonarcloud.io" --define sonar.token="${{ secrets.SONAR_TOKEN }}"
