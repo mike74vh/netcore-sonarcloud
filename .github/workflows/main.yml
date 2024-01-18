@@ -34,6 +34,7 @@ jobs:
           echo "Unziping downloaded file..."
           unzip sonar-scanner-6.0.0.81631-net.zip
           echo "Unzipping completed."
+          ls -ll /tmp
           rm sonar-scanner-6.0.0.81631-net.zip
           sudo mv sonar-scanner-5.0.1.3006 /var/opt
           sudo chmod +x /var/opt/sonar-scanner-5.0.1.3006/bin/sonar-scanner
