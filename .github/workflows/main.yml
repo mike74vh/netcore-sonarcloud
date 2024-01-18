@@ -35,9 +35,9 @@ jobs:
           unzip sonar-scanner-6.0.0.81631-net.zip
           echo "Unzipping completed."
           rm sonar-scanner-6.0.0.81631-net.zip
-          sudo mv sonar-scanner-6.0.0.81631-net /var/opt
+          sudo mv sonar-scanner-5.0.1.3006 /var/opt
           echo "Creating links..."
-          sudo ln -s /var/opt/sonar-scanner-6.0.0.81631-net/bin/sonar-scanner /usr/local/bin/
+          sudo ln -s /var/opt/sonar-scanner-5.0.1.3006/bin/sonar-scanner /usr/local/bin/
 
           echo "Path sonar-scanner:"
           which sonar-scanner
