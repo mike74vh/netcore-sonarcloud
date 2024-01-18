@@ -71,7 +71,7 @@ jobs:
 
       - name: Build and analyze for .NET
         run: |
-          dotnet /var/opt/SonarScanner.MSBuild.dll begin /k:"mike74vh_sonarcloud" /o:"mike74vh" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          dotnet /var/opt/SonarScanner.MSBuild.dll begin /k:"mike74vh_sonarcloud" /o:"mike74vh" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /s:"${{ github.workspace }}/SonarQube.Analysis.xml"
           dotnet build -c Release
           dotnet /var/opt/SonarScanner.MSBuild.dll end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
         working-directory: src
