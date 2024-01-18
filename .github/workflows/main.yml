@@ -40,7 +40,7 @@ jobs:
           ls -ll /tmp/sonar
           echo "============================"
           rm sonar-scanner-6.0.0.81631-net.zip
-          sudo mv sonar /var/opt
+          sudo mv sonar/* /var/opt
           echo "============================"
           echo "Listing files in /var/opt..."
           ls -ll /var/opt
