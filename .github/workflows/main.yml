@@ -39,8 +39,7 @@ jobs:
           echo "Creating links..."
           sudo ln -s /var/opt/sonar-scanner-5.0.1.3006/bin/sonar-scanner /usr/local/bin/
 
-          echo "Path sonar-scanner:"
-          which sonar-scanner
+          ls -ll /usr/local/bin
       # - name: Install Sonar scanner
       #   run: |
       #     cd /tmp || exit
