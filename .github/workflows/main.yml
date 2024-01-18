@@ -29,20 +29,33 @@ jobs:
       - name: Install Sonar scanner
         run: |
           cd /tmp || exit
-          wget -q https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+          wget -q https://github.com/SonarSource/sonar-scanner-msbuild/releases/download/6.0.0.81631/sonar-scanner-6.0.0.81631-net.zip
           echo "Download completed."
           echo "Unziping downloaded file..."
-          unzip sonar-scanner-cli-5.0.1.3006-linux.zip
+          unzip sonar-scanner-6.0.0.81631-net.zip
           echo "Unzipping completed."
-          rm sonar-scanner-cli-5.0.1.3006-linux.zip
-          sudo mv sonar-scanner-5.0.1.3006-linux /var/opt
+          rm sonar-scanner-6.0.0.81631-net.zip
+          sudo mv sonar-scanner-6.0.0.81631-net /var/opt
           echo "Creating links..."
-          sudo ln -s /var/opt/sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner /usr/local/bin/
+          sudo ln -s /var/opt/sonar-scanner-6.0.0.81631-net/bin/sonar-scanner /usr/local/bin/
 
           echo "Path sonar-scanner:"
           which sonar-scanner
-      - name: Show sonar-scanner help
-        run: sonar-scanner -h
+      # - name: Install Sonar scanner
+      #   run: |
+      #     cd /tmp || exit
+      #     wget -q https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+      #     echo "Download completed."
+      #     echo "Unziping downloaded file..."
+      #     unzip sonar-scanner-cli-5.0.1.3006-linux.zip
+      #     echo "Unzipping completed."
+      #     rm sonar-scanner-cli-5.0.1.3006-linux.zip
+      #     sudo mv sonar-scanner-5.0.1.3006-linux /var/opt
+      #     echo "Creating links..."
+      #     sudo ln -s /var/opt/sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner /usr/local/bin/
+
+      #     echo "Path sonar-scanner:"
+      #     which sonar-scanner
       - name: Build and analyze
         run: sonar-scanner --define sonar.host.url="https://sonarcloud.io" --define sonar.token="${{ secrets.SONAR_TOKEN }}"
       # - name: Install SonarCloud scanner
