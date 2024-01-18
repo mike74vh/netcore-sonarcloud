@@ -26,7 +26,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Install Sonar scanner
+      - name: Install Sonar scanner for .NET
         run: |
           cd /tmp || exit
           wget -q https://github.com/SonarSource/sonar-scanner-msbuild/releases/download/6.0.0.81631/sonar-scanner-6.0.0.81631-net.zip
@@ -37,10 +37,8 @@ jobs:
           rm sonar-scanner-6.0.0.81631-net.zip
           sudo mv sonar-scanner-5.0.1.3006 /var/opt
           sudo chmod +x /var/opt/sonar-scanner-5.0.1.3006/bin/sonar-scanner
-          sudo chmod +x /var/opt/sonar-scanner-5.0.1.3006/bin/sonar-scanner-debug
           echo "Creating links..."
           sudo ln -s /var/opt/sonar-scanner-5.0.1.3006/bin/sonar-scanner /usr/local/bin/
-          sudo ln -s /var/opt/sonar-scanner-5.0.1.3006/bin/sonar-scanner-debug /usr/local/bin/
 
           ls -ll /usr/local/bin
 
@@ -61,8 +59,17 @@ jobs:
 
       #     echo "Path to sonar-scanner:"
       #     which sonar-scanner
-      - name: Build and analyze
-        run: sonar-scanner-debug --define sonar.host.url="https://sonarcloud.io" --define sonar.token="${{ secrets.SONAR_TOKEN }}"
+
+      - name: Build and analyze for .NET
+        run: |
+          dotnet /var/opt/sonar-scanner-5.0.1.3006/SonarScanner.MSBuild.dll begin /k:"mike74vh_sonarcloud" /o:"mike74vh" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          dotnet build -c Release
+          dotnet /var/opt/sonar-scanner-5.0.1.3006/SonarScanner.MSBuild.dll end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+
+      # - name: Build and analyze
+      #   run: |
+      #     sonar-scanner --define sonar.host.url="https://sonarcloud.io" --define sonar.token="${{ secrets.SONAR_TOKEN }}"
+
       # - name: Install SonarCloud scanner
       #   run: dotnet tool install --global dotnet-sonarscanner --version 6.0.0
       # - name: Build and analyze
