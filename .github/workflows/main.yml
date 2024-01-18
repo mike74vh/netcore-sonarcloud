@@ -37,8 +37,10 @@ jobs:
           rm sonar-scanner-6.0.0.81631-net.zip
           sudo mv sonar-scanner-5.0.1.3006 /var/opt
           sudo chmod +x /var/opt/sonar-scanner-5.0.1.3006/bin/sonar-scanner
+          sudo chmod +x /var/opt/sonar-scanner-5.0.1.3006/bin/sonar-scanner-debug
           echo "Creating links..."
           sudo ln -s /var/opt/sonar-scanner-5.0.1.3006/bin/sonar-scanner /usr/local/bin/
+          sudo ln -s /var/opt/sonar-scanner-5.0.1.3006/bin/sonar-scanner-debug /usr/local/bin/
 
           ls -ll /usr/local/bin
 
@@ -60,7 +62,7 @@ jobs:
       #     echo "Path to sonar-scanner:"
       #     which sonar-scanner
       - name: Build and analyze
-        run: sonar-scanner --define sonar.host.url="https://sonarcloud.io" --define sonar.token="${{ secrets.SONAR_TOKEN }}"
+        run: sonar-scanner-debug --define sonar.host.url="https://sonarcloud.io" --define sonar.token="${{ secrets.SONAR_TOKEN }}"
       # - name: Install SonarCloud scanner
       #   run: dotnet tool install --global dotnet-sonarscanner --version 6.0.0
       # - name: Build and analyze
