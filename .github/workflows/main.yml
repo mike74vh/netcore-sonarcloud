@@ -72,8 +72,7 @@ jobs:
       - name: Build and analyze for .NET
         run: |
           dotnet /var/opt/SonarScanner.MSBuild.dll begin /k:"mike74vh_sonarcloud" /o:"mike74vh" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /s:"${{ github.workspace }}/SonarQube.Analysis.xml"
-          dotnet build -c Release
-          dotnet test -c Release --results-directory __reports --logger:"junit;LogFileName={assembly}.unittests.junit.xml" --no-restore --verbosity normal --collect:"XPlat Code Coverage;Format=cobertura"
+          dotnet test -c Release --results-directory __reports --logger:"junit;LogFileName={assembly}.unittests.junit.xml" --verbosity normal --collect:"XPlat Code Coverage;Format=cobertura"
           dotnet /var/opt/SonarScanner.MSBuild.dll end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
         working-directory: src
 
