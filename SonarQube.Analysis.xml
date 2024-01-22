@@ -2,4 +2,5 @@
   <Property Name="sonar.sources">src</Property>
   <Property Name="sonar.inclusions">**/*.cs</Property>
   <Property Name="sonar.sourceEncoding">UTF-8</Property>
+  <Property Name="sonar.cs.vscoveragexml.reportsPaths">coverage.xml</Property>
 </SonarQubeAnalysisProperties>
